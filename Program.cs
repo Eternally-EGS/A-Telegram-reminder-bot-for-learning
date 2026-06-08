@@ -2,8 +2,17 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
+namespace TelegramBotApp
+{
+
 internal class Program
 {
+    private static readonly List<IBotCommand> _commands = new()
+    {
+        new Start_com() 
+      
+    };
+
     private static void Main() {
 
         string? botToken = Environment.GetEnvironmentVariable("TELEGRAM_BOT_TOKEN");
@@ -21,17 +30,26 @@ internal class Program
 
     private static async void OnMessege(ITelegramBotClient client, Update update)
     {
-        Console.WriteLine(update.Message?.Text ?? "is no text");
+        string? messageText = update.Message?.Text;
 
-            if(update.Message?.Text == "/help") {
-                await client.SendMessage(update.Message?.Chat.Id ?? 0,"GET OUT");
-            }
+        if (string.IsNullOrEmpty(messageText)) return;
+
+        var command = _commands.FirstOrDefault(c => c.Name == messageText);
+
+        if (command != null)
+        {
+            await command.ExecuteAsync(client, update);
+        }
+        else
+        {
+            Console.WriteLine(messageText ?? "is no text");
+        }
 
     }
 }
 
 
-
+}
 
 
 
