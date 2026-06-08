@@ -1,19 +1,57 @@
 ﻿﻿using Microsoft.Extensions.Configuration;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Microsoft.Data.Sqlite;
 
 namespace TelegramBotApp
 {
 
+ 
+
+    
+
+
+
+
 internal class Program
 {
+
     private static readonly List<IBotCommand> _commands = new()
     {
-        new Start_com() 
+        new Start_com(), 
+        new Add_com() 
       
     };
 
     private static void Main() {
+
+        // DB Path
+        string connectDB = "Data Source=reminders.db";
+
+        //DB Createing
+        try{
+            using (var connect = new SqliteConnection(connectDB))
+            {
+                connect.Open();
+
+                var command = connect.CreateCommand();
+                command.CommandText = @"
+                CREATE TABLE IF NOT EXISTS reminders (
+                id INTAGER PRIMARY KEY AUTOINCREMENT,
+                chat_id INTEGER NOT NULL,
+                text TEXT NOT NULL,
+                remind_date TEXT NOT NULL
+                )";
+                Console.WriteLine("База данных была создана");
+
+            }
+
+        } catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка в процессе создания базы данных: {ex.Message}");
+            return;
+        }
+
 
         string? botToken = Environment.GetEnvironmentVariable("TELEGRAM_BOT_TOKEN");
 
@@ -39,13 +77,16 @@ internal class Program
 
         if (string.IsNullOrEmpty(messageText)) return;
 
-        var command = _commands.FirstOrDefault(c => c.Name == messageText);
+       
+        var command = _commands.FirstOrDefault(c => 
+            messageText == c.Name || messageText.StartsWith(c.Name + " "));
 
         if (command != null)
         {
             await command.ExecuteAsync(client, update);
         }
     }
+
 }
 
 
