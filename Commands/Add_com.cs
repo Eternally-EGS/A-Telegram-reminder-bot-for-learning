@@ -44,7 +44,7 @@ namespace TelegramBotApp
         // DB Path
         string connectDB = "Data Source=reminders.db";
 
-        //DB Createing
+        //DB Writing
         try{
             using (var connect = new SqliteConnection(connectDB))
             {
@@ -52,11 +52,12 @@ namespace TelegramBotApp
                 var write = connect.CreateCommand();
                 write.CommandText = @"
                     INSERT INTO reminders (chat_id,text,remind_date)
-                    VALUE (@chatid, @text,@date)
+                    VALUES (@chatid, @text,@date)
                 ";
                 write.Parameters.AddWithValue("@chatid",chatId);
                 write.Parameters.AddWithValue("@text",text);
-                write.Parameters.AddWithValue("@date",date);
+                write.Parameters.AddWithValue("@date",date.ToString());
+                write.ExecuteNonQuery();
 
                 await client.SendMessage(chatId,$"Напоминание сохранено !!!");
             }

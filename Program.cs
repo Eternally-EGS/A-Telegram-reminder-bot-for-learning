@@ -19,7 +19,8 @@ internal class Program
     private static readonly List<IBotCommand> _commands = new()
     {
         new Start_com(), 
-        new Add_com() 
+        new Add_com(),
+        new ShowList_com() 
       
     };
 
@@ -37,13 +38,12 @@ internal class Program
                 var command = connect.CreateCommand();
                 command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS reminders (
-                id INTAGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 chat_id INTEGER NOT NULL,
                 text TEXT NOT NULL,
                 remind_date TEXT NOT NULL
                 )";
-                Console.WriteLine("База данных была создана");
-
+                command.ExecuteNonQuery();
             }
 
         } catch (Exception ex)
