@@ -13,8 +13,10 @@ namespace TelegramBotApp
         {
             long chatId = update.Message?.Chat.Id ?? 0;
             
-            // Твоя логика, которая раньше была в Main
-            await client.SendMessage(chatId, "GET OUT");
+            await client.SendMessage(chatId, @"Привет я бот напоминалка !!
+                                            
+                                            что я умею:
+                                            пока ничего лол ждем обнов(((");
         }
     }
 }

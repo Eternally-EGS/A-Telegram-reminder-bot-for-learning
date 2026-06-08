@@ -25,7 +25,12 @@ internal class Program
         Host Remindbot = new Host(botToken);
         Remindbot.Onmessage += OnMessege;
         Remindbot.Start();
-        Console.ReadLine();
+        Console.WriteLine("Бот успешно запусщен нажмите enter для выхода");
+        while (true) {
+        var key = Console.ReadKey(true);
+        if (key.Key == ConsoleKey.Enter){
+            Console.WriteLine("wait..."); break;}            
+        }
     }
 
     private static async void OnMessege(ITelegramBotClient client, Update update)
@@ -40,11 +45,6 @@ internal class Program
         {
             await command.ExecuteAsync(client, update);
         }
-        else
-        {
-            Console.WriteLine(messageText ?? "is no text");
-        }
-
     }
 }
 
