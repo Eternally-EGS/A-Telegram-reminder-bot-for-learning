@@ -10,8 +10,8 @@ RUN dotnet restore
 COPY . .
 RUN dotnet publish "TG-BOT-1.csproj" -c Release -o /app/publish
 
-# Этап 2: Запуск приложения
-FROM mcr.microsoft.com/dotnet/runtime:8.0 AS runtime
+# Этап 2: Запуск приложения (используем ASP.NET Core образ)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
 
