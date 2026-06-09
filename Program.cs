@@ -3,6 +3,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
+using TG_BOT_1.Commands;
 
 namespace TelegramBotApp
 {
@@ -20,8 +21,8 @@ namespace TelegramBotApp
         
         };
 
-        private static async Task Main() {
-
+        private static Task Main()
+        {
             // DB Path
             string connectDB = "Data Source=reminders.db";
 
@@ -53,7 +54,7 @@ namespace TelegramBotApp
             catch (Exception ex)
             {
                 Console.WriteLine($"Ошибка в процессе создания базы данных: {ex.Message}");
-                return;
+                return Task.CompletedTask;
             }
 
             // Get bot token from environment variables
@@ -81,7 +82,8 @@ namespace TelegramBotApp
             if (key.Key == ConsoleKey.Enter){
                 Console.WriteLine("wait..."); break;}            
             }
-            
+
+            return Task.CompletedTask;
         }
 
         // On massage void
@@ -102,8 +104,6 @@ namespace TelegramBotApp
                 await command.ExecuteAsync(client, update);
             }
         }
-
-
 
     }
 }

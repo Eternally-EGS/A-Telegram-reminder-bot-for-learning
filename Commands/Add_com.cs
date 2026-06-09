@@ -1,8 +1,9 @@
 using Microsoft.Data.Sqlite;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using TelegramBotApp;
 
-namespace TelegramBotApp
+namespace TG_BOT_1.Commands
 {
     public class Add_com : IBotCommand
     {
@@ -15,7 +16,7 @@ namespace TelegramBotApp
 
             // Get chatid and message
             long chatId = update.Message?.Chat.Id ?? 0;
-            string? messageText = update.Message?.Text;
+            string messageText = update.Message?.Text ?? "";
         
         // Parsing and save DB
         try {
@@ -23,12 +24,12 @@ namespace TelegramBotApp
             if (messageText.StartsWith("/add")) {
             
             // Parsing command
-            string parsing0 = messageText.Substring(5);
+            string parsing0 = messageText[5..];
             int spaceIndex = parsing0.IndexOf(' ');
 
             // Parsing date and text in message
-            string date = parsing0.Substring(0,spaceIndex);
-            string text = parsing0.Substring(spaceIndex + 1);
+            string date = parsing0[..spaceIndex];
+            string text = parsing0[(spaceIndex + 1)..];
 
             // Parsing protaction
             if (!DateTime.TryParse(date,out DateTime remindDate))
@@ -51,24 +52,22 @@ namespace TelegramBotApp
             //DB Writing
             try {
 
-                using (var connect = new SqliteConnection(connectDB))
-                {
-                    connect.Open();
+                        using var connect = new SqliteConnection(connectDB);
+                        connect.Open();
 
-                    var write = connect.CreateCommand();
-                    write.CommandText = @"
+                        var write = connect.CreateCommand();
+                        write.CommandText = @"
                         INSERT INTO reminders (chat_id,text,remind_date)
                         VALUES (@chatid, @text,@date)
                     ";
-                    
-                    write.Parameters.AddWithValue("@chatid",chatId);
-                    write.Parameters.AddWithValue("@text",text);
-                    write.Parameters.AddWithValue("@date",remindDate.ToString("yyyy-MM-dd"));
-                    write.ExecuteNonQuery();
 
-                    await client.SendMessage(chatId,$"Напоминание сохранено !!!");
-                }
-            } catch (Exception ex) {
+                        write.Parameters.AddWithValue("@chatid", chatId);
+                        write.Parameters.AddWithValue("@text", text);
+                        write.Parameters.AddWithValue("@date", remindDate.ToString("yyyy-MM-dd"));
+                        write.ExecuteNonQuery();
+
+                        await client.SendMessage(chatId, $"✅ Напоминание сохранено !!!");
+                    } catch (Exception ex) {
                 await client.SendMessage(chatId,$"❌ Ошибка сохранения базы данных!! {ex}");
             }
                 }

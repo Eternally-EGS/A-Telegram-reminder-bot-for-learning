@@ -45,7 +45,7 @@ TelegramBotClient Bot;
                     DateTime now = DateTime.Now;
                     
                     // Time alarm
-                    DateTime alarm = new DateTime(now.Year,now.Month,now.Day,14,46,0);
+                    DateTime alarm = new DateTime(now.Year,now.Month,now.Day,15,37,0);
                     
                     // Alarm if mising
                     if (now > alarm) {

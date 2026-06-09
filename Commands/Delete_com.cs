@@ -13,7 +13,7 @@ namespace TelegramBotApp
         {
             // Command class
             long chatId = update.Message?.Chat.Id ?? 0;
-            string? messageText = update.Message?.Text;
+            string messageText = update.Message?.Text ?? "";
 
             try {
 
@@ -24,7 +24,6 @@ namespace TelegramBotApp
 
             // Parsing date and text in message
             string ids = (messageText.Substring(spaceIndex)).Trim();
-            Console.WriteLine("need delete: " + ids);
 
             // DB Path
             string connectDB = "Data Source=reminders.db";
@@ -35,6 +34,8 @@ namespace TelegramBotApp
             {
             await connect.OpenAsync();
 
+                
+
                 var command = connect.CreateCommand();
                 command.CommandText = "DELETE FROM reminders WHERE id = @id AND chat_id = @chat_id";
                 command.Parameters.AddWithValue("@id",ids);
@@ -42,16 +43,16 @@ namespace TelegramBotApp
                 int delete = await command.ExecuteNonQueryAsync();
 
                 if (delete > 0) 
-                    await client.SendMessage(chatId,$"Напоминание {ids} удалено.");
+                    await client.SendMessage(chatId,$"✅ Напоминание {ids} удалено.");
                 else 
                     await client.SendMessage(chatId,$"❌ Напоминание с номером: {ids} не найдено.");
             }
             } catch (Exception ex) {
-                 await client.SendMessage(chatId,$"❌ Ошибка базы данных");
+                 await client.SendMessage(chatId,$"❌ Ошибка базы данных {ex}");
             }
                 }
-            } catch (Exception ex) {
-                await client.SendMessage(chatId,"❌ Неверный формат: /delete номер_напоминания (номер_напоминания можно узнвть из /list)");
+            } catch {
+                await client.SendMessage(chatId,"❌ Неверный формат: /delete номер_напоминания (номер_напоминания можно узнать из /list)");
             }
     
         }
