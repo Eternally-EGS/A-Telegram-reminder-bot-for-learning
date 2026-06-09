@@ -7,19 +7,25 @@ namespace TelegramBotApp
 {
     public class ShowList_com : IBotCommand
     {
-        // Привязываем класс конкретно к этой команде
+        // Command class
         public string Name => "/list";
 
         public async Task ExecuteAsync(ITelegramBotClient client, Update update)
         {
+            // Get chatid 
             long chatId = update.Message?.Chat.Id ?? 0;
+            
             // DB Path
+            string connectDB = "Data Source=reminders.db";
 
             try{
-                string connectDB = "Data Source=reminders.db";
+                
+                // Reading DB
                 using (var connect = new SqliteConnection(connectDB))
                 {
+
                     connect.Open();
+
                     var command = connect.CreateCommand();
                     command.CommandText = @"
                         SELECT id, text, remind_date 
@@ -31,6 +37,7 @@ namespace TelegramBotApp
 
                 using (var reader = command.ExecuteReader())
                 {
+                    // Protection
                     if (!reader.HasRows)
                     {
                         await client.SendMessage(chatId, "📭 У тебя пока нет напоминаний.");
@@ -39,6 +46,8 @@ namespace TelegramBotApp
                     
                     string response = "📋 Твои напоминания:\n\n";
                     int counter = 1;
+                    
+                    // List
                     while (reader.Read())
                     {
                         int id = reader.GetInt32(0);
@@ -47,17 +56,16 @@ namespace TelegramBotApp
                         response += $"{counter}. {text} (на {date})\n";
                         counter++;
                     }
-                    await client.SendMessage(chatId, response);
-                        }
-                        
 
-                        }
+                    await client.SendMessage(chatId, response);
+                }
+                    }
+
                 } catch (Exception ex) {
-                await client.SendMessage(chatId,$"❌ Ошибка чтения базы данных!! {ex}");
+                    await client.SendMessage(chatId,$"❌ Ошибка чтения базы данных!! {ex}");
                 }
 
-
-
         }
+        
     }
 }
