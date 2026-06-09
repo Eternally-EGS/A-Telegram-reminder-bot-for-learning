@@ -1,21 +1,19 @@
-# Глобальные переменные без двоеточий и слэшей
-ARG REGISTRY=://microsoft.com
-ARG SDK_IMAGE=dotnet/sdk:8.0
-ARG RUNTIME_IMAGE=dotnet/runtime:8.0
-
-# Сборка
-FROM ${REGISTRY}/${SDK_IMAGE} AS build
+# Этап 1: Сборка приложения
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY *.csproj ./
+# Копируем файл проекта и восстанавливаем зависимости
+COPY ["TG-BOT-1.csproj", "."]
 RUN dotnet restore
 
+# Копируем весь остальной код и собираем приложение
 COPY . .
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish "TG-BOT-1.csproj" -c Release -o /app/publish
 
-# Запуск
-FROM ${REGISTRY}/${RUNTIME_IMAGE} AS final
+# Этап 2: Запуск приложения
+FROM mcr.microsoft.com/dotnet/runtime:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
 
-ENTRYPOINT ["dotnet", "TG-BOT-1.csproj.dll"]
+# Токен будет передан через переменную окружения
+ENTRYPOINT ["dotnet", "TG-BOT-1.dll"]
