@@ -65,7 +65,6 @@ namespace TelegramBotApp
             catch (Exception ex)
             {
                 Console.WriteLine($"Ошибка в процессе создания базы данных: {ex.Message}");
-                return Task.CompletedTask;
             }
 
             // Get bot token from environment variables
