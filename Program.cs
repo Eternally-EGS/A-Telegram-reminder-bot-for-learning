@@ -4,6 +4,8 @@ using Telegram.Bot.Types;
 using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
 using TG_BOT_1.Commands;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
 
 namespace TelegramBotApp
 {
@@ -21,8 +23,17 @@ namespace TelegramBotApp
         
         };
 
-        private static Task Main()
+        private static async Task Main(string[] args)
         {
+
+            var builder = WebApplication.CreateBuilder(args);
+            var app = builder.Build();
+
+            app.MapGet("/", () => "Bot is running!");
+            app.MapGet("/health", () => "OK");
+
+            _ = Task.Run(() => app.RunAsync());
+
             // DB Path
             string connectDB = "Data Source=reminders.db";
 
@@ -73,17 +84,8 @@ namespace TelegramBotApp
             Remindbot.StartDailyAction();
             Console.WriteLine("Бот успешно запусщен нажмите enter для выхода");
 
-            
-
-            
             // Ending 
-            while (true) {
-            var key = Console.ReadKey(true);
-            if (key.Key == ConsoleKey.Enter){
-                Console.WriteLine("wait..."); break;}            
-            }
-
-            return Task.CompletedTask;
+            await Task.Delay(-1);
         }
 
         // On massage void
