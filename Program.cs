@@ -15,7 +15,8 @@ namespace TelegramBotApp
         {
             new Start_com(), 
             new Add_com(),
-            new ShowList_com() 
+            new ShowList_com(),
+            new Delete_com() 
         
         };
 

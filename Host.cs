@@ -45,11 +45,11 @@ TelegramBotClient Bot;
                     DateTime now = DateTime.Now;
                     
                     // Time alarm
-                    DateTime alarm = new DateTime(now.Year,now.Month,now.Day,14,7,0);
+                    DateTime alarm = new DateTime(now.Year,now.Month,now.Day,14,46,0);
                     
                     // Alarm if mising
                     if (now > alarm) {
-                        alarm = alarm.AddDays(1);   }
+                        alarm = alarm.AddDays(1); }
 
                     await Task.Delay(alarm - now);
 
@@ -88,7 +88,7 @@ TelegramBotClient Bot;
                                     line = $"Событие {text} наступило поздравляю!!!";
                                 
                                 if (usermessage.ContainsKey(chat_id))
-                                    usermessage[chat_id] += line;
+                                    usermessage[chat_id] += "\n" + line;
                                 else
                                     usermessage[chat_id] = $"События:\n{line}";
                             }
