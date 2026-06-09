@@ -2,6 +2,7 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Microsoft.Data.Sqlite;
+using System.Threading.Tasks;
 
 namespace TelegramBotApp
 {
@@ -18,7 +19,7 @@ namespace TelegramBotApp
         
         };
 
-        private static void Main() {
+        private static async Task Main() {
 
             // DB Path
             string connectDB = "Data Source=reminders.db";
@@ -39,6 +40,12 @@ namespace TelegramBotApp
                     remind_date TEXT NOT NULL
                     )";
                     command.ExecuteNonQuery();
+                    
+                    // Cleanup old remind
+                    var deleteOld = connect.CreateCommand();
+                    deleteOld.CommandText = @"DELETE FROM reminders WHERE remind_date < date('now')";
+                    deleteOld.ExecuteNonQuery();
+                    
                 }
 
             } 
@@ -61,7 +68,11 @@ namespace TelegramBotApp
             Host Remindbot = new Host(botToken);
             Remindbot.Onmessage += OnMessege;
             Remindbot.Start();
+            Remindbot.StartDailyAction();
             Console.WriteLine("Бот успешно запусщен нажмите enter для выхода");
+
+            
+
             
             // Ending 
             while (true) {
@@ -69,6 +80,7 @@ namespace TelegramBotApp
             if (key.Key == ConsoleKey.Enter){
                 Console.WriteLine("wait..."); break;}            
             }
+            
         }
 
         // On massage void
@@ -89,6 +101,8 @@ namespace TelegramBotApp
                 await command.ExecuteAsync(client, update);
             }
         }
+
+
 
     }
 }

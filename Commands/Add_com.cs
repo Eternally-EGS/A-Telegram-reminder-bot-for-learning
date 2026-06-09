@@ -36,6 +36,12 @@ namespace TelegramBotApp
                 await client.SendMessage(chatId,"❌ Неверны формат нужен: ГГГГ.ММ.ДД");
                 return;
             }
+            
+            if (remindDate < DateTime.Today)
+            {
+                await client.SendMessage(chatId,"❌ Нельзя добавить событие в прошлом!");
+                return;
+            }
 
             // await client.SendMessage(chatId,$"DATA: {date}" + $"TEXT: {text}");
 
@@ -44,7 +50,7 @@ namespace TelegramBotApp
 
             //DB Writing
             try {
-                
+
                 using (var connect = new SqliteConnection(connectDB))
                 {
                     connect.Open();
@@ -57,7 +63,7 @@ namespace TelegramBotApp
                     
                     write.Parameters.AddWithValue("@chatid",chatId);
                     write.Parameters.AddWithValue("@text",text);
-                    write.Parameters.AddWithValue("@date",date.ToString());
+                    write.Parameters.AddWithValue("@date",remindDate.ToString("yyyy-MM-dd"));
                     write.ExecuteNonQuery();
 
                     await client.SendMessage(chatId,$"Напоминание сохранено !!!");
