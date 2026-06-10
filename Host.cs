@@ -57,7 +57,7 @@ TelegramBotClient Bot;
                     Console.WriteLine($"Рассылка {alarm}");
                     
                     // DB Path
-                    string connectDB = "Data Source=reminders.db";
+                    string connectDB = "Data Source=/data/reminders.db";
 
                     try {
 

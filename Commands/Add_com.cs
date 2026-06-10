@@ -47,7 +47,7 @@ namespace TG_BOT_1.Commands
             // await client.SendMessage(chatId,$"DATA: {date}" + $"TEXT: {text}");
 
             // DB Path
-            string connectDB = "Data Source=reminders.db";
+            string connectDB = "Data Source=/data/reminders.db";
 
             //DB Writing
             try {
