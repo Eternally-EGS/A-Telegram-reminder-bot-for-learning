@@ -8,9 +8,9 @@ My first full-fledged Telegram bot in C#. It helps not to forget about important
 
 ## ✨ Opportunities
 
-- `/add YYYY-MM-DD Text' — add a new event
-- `/list' — show a list of all events
-- `/delete number' — delete an event by its number from the list
+- /add YYYY-MM-DD Text' — add a new event
+- /list' — show a list of all events
+- /delete number' — delete an event by its number from the list
 - Daily automatic mailing at 9 a.m. (Moscow time)
 
 ---
@@ -24,7 +24,7 @@ My first full-fledged Telegram bot in C#. It helps not to forget about important
 
 ---
 
-## , Deployment
+## Deployment
 
 The project is set up for deployment via **GitHub + Amvera**. When you push it to the `master`, it is automatically assembled and deployed on the server.
 
@@ -36,20 +36,21 @@ The project is set up for deployment via **GitHub + Amvera**. When you push it t
 
 ## 📂 Project structure
 
-├── Commands/        # Command handlers (/start, /add, /list, /delete)
+├── Commands/ # Command handlers (/start, /add, /list, /delete)
 ├── Host.cs # Class for managing the bot and background tasks
+
 Program.cs # Entry point, launch of the web server and bot
-,── amvera.yml # Deployment configuration on Amvera
+
 └── reminders.db # SQLite database (created automatically)
 
 ---
 
 ## 👨‍💻 Author
 
-Telegram: [@eternally16](https://t.me/eternally16)  
+Telegram: [@eternally16](t.me/Eternally15) 
 GitHub: [Eternally-EGS](https://github.com/Eternally-EGS)
 
 ---
 
 The bot was created in the process of learning C# and deployment .NET applications to the cloud._
-``
+
