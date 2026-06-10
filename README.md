@@ -46,8 +46,7 @@ Program.cs # Entry point, launch of the web server and bot
 ---
 
 ## 👨‍💻 Author
-
-Telegram: [@eternally16](t.me/Eternally15) 
+ 
 GitHub: [Eternally-EGS](https://github.com/Eternally-EGS)
 
 ---
