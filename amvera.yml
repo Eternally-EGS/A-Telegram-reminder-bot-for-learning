@@ -1,0 +1,9 @@
+meta:
+  environment: csharp
+  toolchain: dotnet
+  version: "8.0"
+build: {}
+run:
+  persistenceMount: /data
+  containerPort: "80"
+  buildFileName: Program.cs
