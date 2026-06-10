@@ -1,9 +1,3 @@
-meta:
-  environment: csharp
-  toolchain: dotnet
-  version: "8.0"
-build: {}
+# Оставляем только эту настройку для сохранения базы данных
 run:
   persistenceMount: /data
-  containerPort: "80"
-  buildFileName: Program.cs
