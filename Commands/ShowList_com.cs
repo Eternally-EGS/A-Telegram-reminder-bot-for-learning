@@ -17,7 +17,7 @@ namespace TG_BOT_1.Commands
             long chatId = update.Message?.Chat.Id ?? 0;
             
             // DB Path
-            string connectDB = "Data Source=reminders.db";
+            string connectDB = "Data Source=/data/reminders.db";
 
             try{
                 

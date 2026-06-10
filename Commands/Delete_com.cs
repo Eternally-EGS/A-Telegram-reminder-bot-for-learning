@@ -26,7 +26,7 @@ namespace TelegramBotApp
             string ids = (messageText.Substring(spaceIndex)).Trim();
 
             // DB Path
-            string connectDB = "Data Source=reminders.db";
+            string connectDB = "Data Source=/data/reminders.db";
 
             try {
             // Reading DB

@@ -35,7 +35,7 @@ namespace TelegramBotApp
             _ = Task.Run(() => app.RunAsync());
 
             // DB Path
-            string connectDB = "Data Source=reminders.db";
+            string connectDB = "Data Source=/data/reminders.db";
 
             //DB Createing
             try{
