@@ -27,7 +27,7 @@ namespace TelegramBotApp
 
             try {
             // Reading DB
-            using (var connect = new SqliteConnection(Program.connectDBstr))
+            using (var connect = new SqliteConnection(GlobalDB.connectDBstr))
             {
             await connect.OpenAsync();
 

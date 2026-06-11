@@ -3,7 +3,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using TelegramBotApp;
 
-namespace TG_BOT_1.Commands
+namespace TelegramBotApp
 {
     public class Add_com : IBotCommand
     {
@@ -49,7 +49,7 @@ namespace TG_BOT_1.Commands
             //DB Writing
             try {
 
-                        using var connect = new SqliteConnection(Program.connectDBstr);
+                        using var connect = new SqliteConnection(GlobalDB.connectDBstr);
                         connect.Open();
 
                         var write = connect.CreateCommand();

@@ -19,7 +19,7 @@ namespace TG_BOT_1.Commands
             try{
                 
                 // Reading DB
-                using (var connect = new SqliteConnection(Program.connectDBstr))
+                using (var connect = new SqliteConnection(GlobalDB.connectDBstr))
                 {
 
                     connect.Open();

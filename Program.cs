@@ -9,12 +9,8 @@ using Microsoft.Extensions.Hosting;
 
 namespace TelegramBotApp
 {
-
     internal class Program
     {
-
-        // DB Path
-        public static string connectDBstr = "Data Source=/data/reminders.db";
 
         // Command list
         private static readonly List<IBotCommand> _commands = new()
@@ -22,13 +18,17 @@ namespace TelegramBotApp
             new Start_com(), 
             new Add_com(),
             new ShowList_com(),
-            new Delete_com() 
+            new Delete_com() ,
+            new Set_timezone_com() 
         
         };
 
         private static async Task Main(string[] args)
         {
-
+            // Db path create 
+            if (Directory.Exists("/data")){
+                GlobalDB.connectDBstr = "Data Source=/data/reminders.db";
+            } else { GlobalDB.connectDBstr = "Data Source=reminders.db"; }
             var builder = WebApplication.CreateBuilder(args);
             var app = builder.Build();
 
@@ -40,10 +40,11 @@ namespace TelegramBotApp
             //DB Createing
             try{
 
-                using (var connect = new SqliteConnection(connectDBstr))
+                using (var connect = new SqliteConnection(GlobalDB.connectDBstr))
                 {
                     connect.Open();
 
+                    // Creating table 1
                     var command = connect.CreateCommand();
                     command.CommandText = @"
                     CREATE TABLE IF NOT EXISTS reminders (
@@ -58,6 +59,17 @@ namespace TelegramBotApp
                     var deleteOld = connect.CreateCommand();
                     deleteOld.CommandText = @"DELETE FROM reminders WHERE remind_date < date('now')";
                     deleteOld.ExecuteNonQuery();
+
+                    // Creating table 2
+                    var table2 = connect.CreateCommand();
+                    table2.CommandText = @"
+                    CREATE TABLE IF NOT EXISTS user_setting
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    chat_id INTEGER NOT NULL,
+                    time_zone INTEGER NOT NULL,
+                    alarm_time INTEGER NOT NULL
+                    ";
+                    table2.ExecuteNonQuery();
                     
                 }
 
@@ -107,6 +119,10 @@ namespace TelegramBotApp
         }
 
     }
+}
+
+public static class GlobalDB {
+    public static string connectDBstr {get; set;}
 }
 
 

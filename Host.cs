@@ -14,7 +14,9 @@ TelegramBotClient Bot;
     // Bot create
     public Host(string token)
     {
-        Bot = new TelegramBotClient(token);
+        var httpcl = new HttpClient();
+        httpcl.Timeout =  TimeSpan.FromSeconds(240);
+        Bot = new TelegramBotClient(token,httpcl);
     }
 
     // Start funcion 
@@ -48,7 +50,6 @@ TelegramBotClient Bot;
                     
                     // Time alarm
                     DateTime alarm = new DateTime(now.Year,now.Month,now.Day,9,0,0);
-                    
                     // Alarm if mising
                     if (now > alarm) {
                         alarm = alarm.AddDays(1); }
@@ -61,7 +62,7 @@ TelegramBotClient Bot;
                     try {
 
                         // Reading DB
-                        using (var connect = new SqliteConnection(Program.connectDBstr))
+                        using (var connect = new SqliteConnection(GlobalDB.connectDBstr))
                         {
                         await connect.OpenAsync();
 
@@ -83,9 +84,15 @@ TelegramBotClient Bot;
                                 string line = "";
                                 if (dayleft > 0)
                                     line = $"До события {text} осталось: {dayleft} дней";
-                                else if (dayleft == 0) 
+                                else if (dayleft == 0) {
+
+                                    // Cleanup old remind
+                                    var deleteOld = connect.CreateCommand();
+                                    deleteOld.CommandText = @"DELETE FROM reminders WHERE remind_date < date('now')";
+                                    deleteOld.ExecuteNonQuery();
+
                                     line = $"Событие {text} наступило поздравляю!!!";
-                                
+                                }
                                 if (usermessage.ContainsKey(chat_id))
                                     usermessage[chat_id] += "\n" + line;
                                 else
