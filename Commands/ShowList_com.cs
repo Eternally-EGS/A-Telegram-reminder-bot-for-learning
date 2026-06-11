@@ -16,13 +16,10 @@ namespace TG_BOT_1.Commands
             // Get chatid 
             long chatId = update.Message?.Chat.Id ?? 0;
             
-            // DB Path
-            string connectDB = "Data Source=/data/reminders.db";
-
             try{
                 
                 // Reading DB
-                using (var connect = new SqliteConnection(connectDB))
+                using (var connect = new SqliteConnection(Program.connectDBstr))
                 {
 
                     connect.Open();

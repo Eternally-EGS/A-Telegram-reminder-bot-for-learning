@@ -2,6 +2,7 @@ using Microsoft.Data.Sqlite;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
+using TelegramBotApp;
 
 
 class Host {
@@ -57,13 +58,10 @@ TelegramBotClient Bot;
                     // Alarm action
                     Console.WriteLine($"Рассылка {alarm}");
                     
-                    // DB Path
-                    string connectDB = "Data Source=/data/reminders.db";
-
                     try {
 
                         // Reading DB
-                        using (var connect = new SqliteConnection(connectDB))
+                        using (var connect = new SqliteConnection(Program.connectDBstr))
                         {
                         await connect.OpenAsync();
 

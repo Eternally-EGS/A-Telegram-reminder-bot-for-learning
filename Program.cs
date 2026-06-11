@@ -13,6 +13,9 @@ namespace TelegramBotApp
     internal class Program
     {
 
+        // DB Path
+        public static string connectDBstr = "Data Source=/data/reminders.db";
+
         // Command list
         private static readonly List<IBotCommand> _commands = new()
         {
@@ -34,13 +37,10 @@ namespace TelegramBotApp
 
             _ = Task.Run(() => app.RunAsync());
 
-            // DB Path
-            string connectDB = "Data Source=/data/reminders.db";
-
             //DB Createing
             try{
 
-                using (var connect = new SqliteConnection(connectDB))
+                using (var connect = new SqliteConnection(connectDBstr))
                 {
                     connect.Open();
 

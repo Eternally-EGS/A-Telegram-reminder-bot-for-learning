@@ -25,12 +25,9 @@ namespace TelegramBotApp
             // Parsing date and text in message
             string ids = (messageText.Substring(spaceIndex)).Trim();
 
-            // DB Path
-            string connectDB = "Data Source=/data/reminders.db";
-
             try {
             // Reading DB
-            using (var connect = new SqliteConnection(connectDB))
+            using (var connect = new SqliteConnection(Program.connectDBstr))
             {
             await connect.OpenAsync();
 
