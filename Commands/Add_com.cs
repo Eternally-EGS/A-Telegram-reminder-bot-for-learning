@@ -34,13 +34,13 @@ namespace TG_BOT_1.Commands
             // Parsing protaction
             if (!DateTime.TryParse(date,out DateTime remindDate))
             {
-                await client.SendMessage(chatId,"❌ Неверны формат нужен: ГГГГ.ММ.ДД");
+                await client.SendTextMessageAsync(chatId,"❌ Неверны формат нужен: ГГГГ.ММ.ДД");
                 return;
             }
             
             if (remindDate < DateTime.Today)
             {
-                await client.SendMessage(chatId,"❌ Нельзя добавить событие в прошлом!");
+                await client.SendTextMessageAsync(chatId,"❌ Нельзя добавить событие в прошлом!");
                 return;
             }
 
@@ -66,14 +66,14 @@ namespace TG_BOT_1.Commands
                         write.Parameters.AddWithValue("@date", remindDate.ToString("yyyy-MM-dd"));
                         write.ExecuteNonQuery();
 
-                        await client.SendMessage(chatId, $"✅ Напоминание сохранено !!!");
+                        await client.SendTextMessageAsync(chatId, $"✅ Напоминание сохранено !!!");
                     } catch (Exception ex) {
-                await client.SendMessage(chatId,$"❌ Ошибка сохранения базы данных!! {ex}");
+                await client.SendTextMessageAsync(chatId,$"❌ Ошибка сохранения базы данных!! {ex}");
             }
                 }
 
         } catch {
-            await client.SendMessage(chatId,"❌ Неверный формат: /add ГГГГ.ММ.ДД ТЕКСТ");
+            await client.SendTextMessageAsync(chatId,"❌ Неверный формат: /add ГГГГ.ММ.ДД ТЕКСТ");
         }
 
         

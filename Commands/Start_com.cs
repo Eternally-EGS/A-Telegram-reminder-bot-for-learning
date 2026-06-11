@@ -27,7 +27,7 @@ namespace TelegramBotApp
 Пример: /add 2025-12-31 Купить ёлку
 ";
     
-            await client.SendMessage(chatId, response);
+            await client.SendTextMessageAsync(chatId, response);
         }
     }
 }

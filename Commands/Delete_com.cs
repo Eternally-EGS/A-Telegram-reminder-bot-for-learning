@@ -43,16 +43,16 @@ namespace TelegramBotApp
                 int delete = await command.ExecuteNonQueryAsync();
 
                 if (delete > 0) 
-                    await client.SendMessage(chatId,$"✅ Напоминание {ids} удалено.");
+                    await client.SendTextMessageAsync(chatId,$"✅ Напоминание {ids} удалено.");
                 else 
-                    await client.SendMessage(chatId,$"❌ Напоминание с номером: {ids} не найдено.");
+                    await client.SendTextMessageAsync(chatId,$"❌ Напоминание с номером: {ids} не найдено.");
             }
             } catch (Exception ex) {
-                 await client.SendMessage(chatId,$"❌ Ошибка базы данных {ex}");
+                 await client.SendTextMessageAsync(chatId,$"❌ Ошибка базы данных {ex}");
             }
                 }
             } catch {
-                await client.SendMessage(chatId,"❌ Неверный формат: /delete номер_напоминания (номер_напоминания можно узнать из /list)");
+                await client.SendTextMessageAsync(chatId,"❌ Неверный формат: /delete номер_напоминания (номер_напоминания можно узнать из /list)");
             }
     
         }

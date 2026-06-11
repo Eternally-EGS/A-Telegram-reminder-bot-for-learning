@@ -3,6 +3,7 @@ using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 
+
 class Host {
 TelegramBotClient Bot;
 
@@ -21,7 +22,7 @@ TelegramBotClient Bot;
     }
 
     // Error output
-    private async Task ErrorHead(ITelegramBotClient client, Exception exception, HandleErrorSource source, CancellationToken token)
+    private async Task ErrorHead(ITelegramBotClient client, Exception exception, CancellationToken cancellationToken)
     {
         Console.WriteLine($"Error: + {exception.Message}");
         await Task.CompletedTask;
@@ -94,7 +95,7 @@ TelegramBotClient Bot;
                             }
 
                             foreach(var user in usermessage){
-                                await Bot.SendMessage(user.Key, user.Value);
+                                await Bot.SendTextMessageAsync(user.Key, user.Value);
                             }
                         }  
                     }

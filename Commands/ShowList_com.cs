@@ -40,7 +40,7 @@ namespace TG_BOT_1.Commands
                     // Protection
                     if (!reader.HasRows)
                     {
-                        await client.SendMessage(chatId, "📭 У тебя пока нет напоминаний.");
+                        await client.SendTextMessageAsync(chatId, "📭 У тебя пока нет напоминаний.");
                         return;
                     }
 
@@ -58,11 +58,11 @@ namespace TG_BOT_1.Commands
                         counter++;
                     }
 
-                    await client.SendMessage(chatId, response);
+                    await client.SendTextMessageAsync(chatId, response);
                 }
 
                 } catch (Exception ex) {
-                    await client.SendMessage(chatId,$"❌ Ошибка чтения базы данных!! {ex}");
+                    await client.SendTextMessageAsync(chatId,$"❌ Ошибка чтения базы данных!! {ex}");
                 }
 
         }
