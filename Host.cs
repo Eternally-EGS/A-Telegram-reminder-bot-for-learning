@@ -47,9 +47,8 @@ TelegramBotClient Bot;
 
                     // Time now
                     DateTime now = DateTime.Now;
-                    
-                    // Time alarm
-                    DateTime alarm = new DateTime(now.Year,now.Month,now.Day,9,0,0);
+                    DateTime alarm = new DateTime(now.Year,now.Month,now.Day,6,0,0);
+
                     // Alarm if mising
                     if (now > alarm) {
                         alarm = alarm.AddDays(1); }
@@ -111,8 +110,7 @@ TelegramBotClient Bot;
 
                 }
             });
-
-
     }
 
 }
+
